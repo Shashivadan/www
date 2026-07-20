@@ -1,10 +1,10 @@
 import { motion } from 'motion/react'
-import { Header } from './header'
-import { Skills } from './skills'
 import { Experience } from './experience'
-import { WakaTimeStatsSection } from './wakatime-stats'
 import { GitHubCalendarSection } from './github-calendar'
+import { Header } from './header'
 import { containerVariants } from './shared'
+import { Skills } from './skills'
+
 
 export function LandingPage() {
   return (
@@ -19,7 +19,7 @@ export function LandingPage() {
         <Header />
         <Skills />
         <GitHubCalendarSection />
-        <WakaTimeStatsSection />
+        {/* <WakaTimeStatsSection /> */}
         <Experience />
       </div>
     </motion.div>
