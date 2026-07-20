@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, PenTool, Phone } from 'lucide-react'
+import { Github, Linkedin, Mail, PenTool } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
@@ -24,16 +24,6 @@ export function Header() {
       label: 'shashivadan99@gmail.com',
       hover: { rotateX: 45, y: -2 },
       tap: { scale: 0.8, rotateX: 0 },
-    },
-    {
-      href: 'tel:+916281373269',
-      icon: Phone,
-      label: '+91 6281373269',
-      hover: {
-        x: [-1, 1, -1, 1, 0],
-        transition: { repeat: Infinity, duration: 0.2 },
-      },
-      tap: { scale: 1.2 },
     },
     {
       href: 'https://linkedin.com/in/thota-shashivadan',
