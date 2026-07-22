@@ -1,0 +1,45 @@
+name: Build & deploy blog
+
+# Daily refresh of content + on manual trigger + on app code changes.
+on:
+  schedule:
+    - cron: '0 3 * * *' # daily 03:00 UTC — pulls latest content from the content repo
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ['apps/blogs/**']
+
+concurrency:
+  group: blogs-deploy
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/blogs
+    env:
+      NODE_ENV: production
+      # Content source (set as repo/org variables) + read token (secret).
+      CONTENT_REPO_OWNER: ${{ vars.CONTENT_REPO_OWNER }}
+      CONTENT_REPO_NAME: ${{ vars.CONTENT_REPO_NAME }}
+      CONTENT_REPO_BRANCH: ${{ vars.CONTENT_REPO_BRANCH || 'main' }}
+      GITHUB_TOKEN: ${{ secrets.CONTENT_READ_TOKEN }}
+      # Public site config.
+      VITE_SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+      VITE_SITE_NAME: ${{ vars.SITE_NAME }}
+      VITE_REPO_URL: ${{ vars.PUBLIC_REPO_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        working-directory: .
+      # `build` runs `fetch-content` (octokit) then `vite build` (SSG prerender).
+      - run: pnpm build
+      # TODO: deploy apps/blogs/.output to the chosen host (Netlify/Vercel/Cloudflare/S3).
+      #       e.g. netlify deploy --prod --dir=.output/public  (open question: host)
