@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Prose } from '@/features/blog/components/prose'
 import { ReadingProgress, BackToTop } from '@/features/blog/components/reading-aids'
 import { PrevNext, ShareButtons } from '@/features/blog/components/post-extras'
+import { Giscus } from '@/features/blog/components/giscus'
 import { PostCard } from '@/features/blog/components/post-card'
 import { getPost, neighbors, relatedPosts } from '@/features/blog/content/manifest'
 import { coverUrl } from '@/features/blog/utils/cover'
@@ -69,7 +70,7 @@ function PostPage() {
           >
             {post.category}
           </Link>
-          <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-[2.5rem] sm:leading-[1.1]">
+          <h1 className="mt-3 text-balance text-2xl font-semibold tracking-tight sm:text-[2rem] sm:leading-[1.15]">
             {post.title}
           </h1>
         </header>
@@ -100,7 +101,7 @@ function PostPage() {
         <div className="mx-auto mt-12 max-w-[760px]">
           <Prose
             html={post.html}
-            className="prose-lg prose-headings:font-semibold prose-headings:tracking-tight prose-p:text-muted-foreground prose-li:text-muted-foreground"
+            className="prose-headings:font-semibold prose-headings:tracking-tight prose-p:text-muted-foreground prose-li:text-muted-foreground"
           />
 
           {/* Minimal footer: author/date + copy link */}
@@ -111,9 +112,7 @@ function PostPage() {
             <ShareButtons slug={post.slug} title={post.title} />
           </div>
 
-
-
-
+          <Giscus />
         </div>
 
         {related.length > 0 && (
