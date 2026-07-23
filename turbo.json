@@ -5,6 +5,22 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "CONTENT_REPO_OWNER",
+        "CONTENT_REPO_NAME",
+        "CONTENT_REPO_BRANCH",
+        "VITE_SITE_NAME",
+        "VITE_SITE_DESCRIPTION",
+        "VITE_SITE_ORIGIN",
+        "VITE_REPO_URL",
+        "VITE_DEFAULT_OG_IMAGE",
+        "VITE_AUTHOR_NAME",
+        "VITE_AUTHOR_URL",
+        "VITE_GISCUS_REPO",
+        "VITE_GISCUS_REPO_ID",
+        "VITE_GISCUS_CATEGORY",
+        "VITE_GISCUS_CATEGORY_ID"
+      ],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {
