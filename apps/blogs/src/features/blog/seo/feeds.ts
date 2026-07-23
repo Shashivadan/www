@@ -48,5 +48,16 @@ ${items}
 }
 
 export function buildRobots(): string {
-  return `User-agent: *\nAllow: /\n\nSitemap: ${absoluteUrl('/sitemap.xml')}\n`
+  const aiBots = [
+    'ClaudeBot',
+    'Claude-User',
+    'anthropic-ai',
+    'GPTBot',
+    'OAI-SearchBot',
+    'ChatGPT-User',
+    'PerplexityBot',
+    'Google-Extended',
+  ]
+  const aiRules = aiBots.map((bot) => `User-agent: ${bot}\nAllow: /`).join('\n\n')
+  return `User-agent: *\nAllow: /\n\n${aiRules}\n\nSitemap: ${absoluteUrl('/sitemap.xml')}\n`
 }
