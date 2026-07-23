@@ -13,7 +13,7 @@ export function PostCard({ post }: { post: Post }) {
     <MinimalCard className="group flex h-full flex-col transition-transform duration-200 hover:-translate-y-1">
       <Link to="/blog/$" params={{ _splat: post.slug }} aria-label={post.title}>
         <MinimalCardImage src={coverUrl(post, 800, 450)} alt={post.title} className="mb-3 h-40" />
-      </Link>
+      </Link>                
 
       <div className="flex flex-1 flex-col px-3 pb-2">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
@@ -49,7 +49,7 @@ export function PostCard({ post }: { post: Post }) {
         <div className="mt-3 flex flex-wrap gap-1.5">
           {post.tags.slice(0, 3).map((tag) => (
             <Link key={tag} to="/tag/$tag" params={{ tag }}>
-              <Badge variant="secondary" className="rounded-full text-xs font-normal">{tag}</Badge>
+              <Badge variant="secondary" className=' border-black/45 rounded-sm text-xs px-2 py-1 capitalize ' >{tag}</Badge>
             </Link>
           ))}
         </div>

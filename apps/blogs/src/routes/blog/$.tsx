@@ -41,7 +41,6 @@ export const Route = createFileRoute('/blog/$')({
 
 function PostPage() {
   const post = Route.useLoaderData()
-  const { prev, next } = neighbors(post.slug)
   const related = relatedPosts(post)
 
   const dateLabel = post.published ? format(new Date(post.published), 'MMMM d, yyyy') : null
@@ -50,19 +49,19 @@ function PostPage() {
     <>
       <ReadingProgress />
 
-      <article className="px-4 pb-24 pt-10">
+      <article className="px-4 pb-24">
         {/* Back link, subtle, top-left of the reading column */}
-        <div className="mx-auto max-w-[680px]">
+        {/* <div className="mx-auto max-w-[760px]">
           <Link
             to="/blog"
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="size-4" /> Blog
           </Link>
-        </div>
+        </div> */}
 
         {/* Editorial header — centered */}
-        <header className="mx-auto mt-10 max-w-[680px] text-center">
+        <header className="mx-auto mt-10 max-w-[760px] text-center">
           <Link
             to="/category/$category"
             params={{ category: post.category }}
@@ -85,11 +84,11 @@ function PostPage() {
         </div>
 
         {/* Author + date, below the cover (Linear-style) */}
-        <div className="mx-auto mt-8 flex max-w-[680px] items-center justify-center gap-2 text-sm text-muted-foreground">
-          <span className="text-foreground">{post.author}</span>
+        <div className="mx-auto mt-8 flex max-w-[760px] items-center justify-center gap-2 text-sm text-muted-foreground">
+
           {dateLabel && (
             <>
-              <span aria-hidden>·</span>
+
               <time dateTime={post.published ?? undefined}>{dateLabel}</time>
             </>
           )}
@@ -98,7 +97,7 @@ function PostPage() {
         </div>
 
         {/* Body — narrow reading column */}
-        <div className="mx-auto mt-12 max-w-[680px]">
+        <div className="mx-auto mt-12 max-w-[760px]">
           <Prose
             html={post.html}
             className="prose-lg prose-headings:font-semibold prose-headings:tracking-tight prose-p:text-muted-foreground prose-li:text-muted-foreground"
@@ -107,30 +106,14 @@ function PostPage() {
           {/* Minimal footer: author/date + copy link */}
           <div className="mt-14 flex flex-col gap-4 border-t pt-8 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-sm text-muted-foreground">
-              <span className="text-foreground">{post.author}</span>
-              {dateLabel && <> · {dateLabel}</>}
+              {dateLabel && <>{dateLabel}</>}
             </div>
             <ShareButtons slug={post.slug} title={post.title} />
           </div>
 
-          {post.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {post.tags.map((t) => (
-                <Link
-                  key={t}
-                  to="/tag/$tag"
-                  params={{ tag: t }}
-                  className="rounded-full bg-muted px-3 py-1 text-sm text-muted-foreground hover:text-foreground"
-                >
-                  #{t}
-                </Link>
-              ))}
-            </div>
-          )}
 
-          <div className="mt-10">
-            <PrevNext prev={prev} next={next} />
-          </div>
+
+
         </div>
 
         {related.length > 0 && (

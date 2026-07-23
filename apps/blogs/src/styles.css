@@ -1,8 +1,6 @@
-
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
@@ -57,19 +55,19 @@ body {
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
+  --background: oklch(0 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
+  --card: oklch(0.18 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
+  --popover: oklch(0.18 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.424 0.199 265.638);
   --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.274 0.006 286.033);
+  --secondary: oklch(0.24 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.705 0 0);
+  --accent: oklch(0.24 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -80,18 +78,18 @@ body {
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar: oklch(0.18 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.623 0.214 259.815);
   --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent: oklch(0.24 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
 @theme inline {
-  --font-sans: 'Inter Variable', sans-serif;
+  --font-sans: 'Geist Variable', sans-serif;
   --font-heading: 'Geist Variable', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -137,26 +135,75 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  button:not(:disabled), [role="button"]:not(:disabled) {
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
   html {
     @apply font-sans;
   }
 }
+
 /* ---- Blog: Shiki dual theme ---- */
 .shiki,
 .shiki span {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
+
 .dark .shiki,
 .dark .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Tighter body line-height (prose-lg default ~1.78 is too airy) */
+.prose :where(p, li) {
+  line-height: 1.6;
+}
+
+/* Tighter spacing above headings (prose-lg margins are too large) */
+.prose :where(h2) {
+  margin-top: 1.75em;
+  margin-bottom: 0.6em;
+}
+
+.prose :where(h3) {
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+/* Autolinked headings (rehype wrap) shouldn't look like links */
+.prose :where(h1, h2, h3, h4, h5, h6) a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: inherit;
+}
+
+/* Inline code — larger, with subtle chip styling */
+.prose :where(code):not(pre code) {
+  font-size: 0.8em;
+  padding: 0.1em 0.35em;
+  border-radius: 0.35rem;
+  background: color-mix(in oklch, var(--muted) 60%, transparent);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.prose :where(code):not(pre code)::before,
+.prose :where(code):not(pre code)::after {
+  content: none;
+}
+
+/* Rounded content images */
+.prose :where(img) {
+  border-radius: 0.75rem;
 }
 
 /* Code block chrome */
@@ -169,6 +216,17 @@ body {
   font-size: 0.875rem;
   line-height: 1.6;
 }
+
+/* Distinct surface so blocks stand off the pure-black page */
+.dark .prose pre.shiki,
+.dark .prose pre.shiki span {
+  background-color: oklch(0.16 0 0) !important;
+}
+
+.dark .prose pre.shiki {
+  border-color: oklch(1 0 0 / 14%);
+}
+
 .prose pre.shiki[data-filename]::before {
   content: attr(data-filename);
   display: block;
@@ -178,6 +236,7 @@ body {
   color: var(--muted-foreground);
   font-size: 0.75rem;
 }
+
 .prose .line.highlighted {
   background: color-mix(in oklch, var(--primary) 12%, transparent);
   display: inline-block;
@@ -185,8 +244,15 @@ body {
   margin: 0 -1rem;
   padding: 0 1rem;
 }
-.prose .line.diff.add { background: color-mix(in oklch, green 18%, transparent); }
-.prose .line.diff.remove { background: color-mix(in oklch, red 18%, transparent); }
+
+.prose .line.diff.add {
+  background: color-mix(in oklch, green 18%, transparent);
+}
+
+.prose .line.diff.remove {
+  background: color-mix(in oklch, red 18%, transparent);
+}
+
 .copy-btn {
   position: absolute;
   top: 0.5rem;
@@ -201,20 +267,72 @@ body {
   transition: opacity 0.15s;
   cursor: pointer;
 }
-.prose pre.shiki:hover .copy-btn { opacity: 1; }
+
+.prose pre.shiki:hover .copy-btn {
+  opacity: 1;
+}
 
 /* ---- Blog: admonitions ---- */
 .admonition {
-  border-left: 4px solid var(--border);
-  border-radius: 0.375rem;
-  padding: 0.75rem 1rem;
-  margin: 1.25rem 0;
-  background: var(--muted);
+  --adm: var(--primary);
+  --adm-icon: 'ℹ';
+  --adm-label: 'Note';
+  position: relative;
+  border: 1px solid color-mix(in oklch, var(--adm) 30%, transparent);
+  border-radius: 0.75rem;
+  padding: 1rem 1.15rem;
+  margin: 1.5rem 0;
+  background: color-mix(in oklch, var(--adm) 12%, var(--background));
 }
-.admonition-note   { border-color: var(--primary); }
-.admonition-tip    { border-color: oklch(0.7 0.15 160); }
-.admonition-warning{ border-color: oklch(0.75 0.15 80); }
-.admonition-danger { border-color: var(--destructive); }
-.admonition-info   { border-color: oklch(0.65 0.15 240); }
+
+.admonition::before {
+  content: var(--adm-icon) ' ' var(--adm-label);
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--adm);
+}
+
+/* tighten inner paragraph spacing */
+.admonition> :first-child {
+  margin-top: 0;
+}
+
+.admonition> :last-child {
+  margin-bottom: 0;
+}
+
+.admonition-note {
+  --adm: oklch(0.65 0.15 250);
+  --adm-icon: '\1F4DD';
+  --adm-label: 'Note';
+}
+
+.admonition-tip {
+  --adm: oklch(0.72 0.16 160);
+  --adm-icon: '\1F4A1';
+  --adm-label: 'Tip';
+}
+
+.admonition-info {
+  --adm: oklch(0.68 0.14 230);
+  --adm-icon: '\2139';
+  --adm-label: 'Info';
+}
+
+.admonition-warning {
+  --adm: oklch(0.78 0.15 80);
+  --adm-icon: '\26A0';
+  --adm-label: 'Warning';
+}
+
+.admonition-danger {
+  --adm: oklch(0.65 0.2 25);
+  --adm-icon: '\1F6A8';
+  --adm-label: 'Danger';
+}
 
 @plugin "@tailwindcss/typography";

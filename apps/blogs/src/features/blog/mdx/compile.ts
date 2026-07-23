@@ -19,7 +19,7 @@ import type { Heading } from '../types'
 
 const LANGS = [
   'ts', 'tsx', 'js', 'jsx', 'go', 'rust', 'sql', 'json', 'yaml',
-  'docker', 'bash', 'shell', 'css', 'html', 'diff', 'md', 'mdx',
+  'docker', 'bash', 'shell', 'css', 'html', 'diff', 'md', 'mdx', 'qml',
 ]
 
 let highlighterPromise: Promise<Highlighter> | null = null

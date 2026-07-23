@@ -1,8 +1,19 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { Check, Link2, Twitter } from 'lucide-react'
+import { Check, Link2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { absoluteUrl } from '../config'
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden className={className}>
+      <path d="M12.6 0.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867 -5.07 -4.425 5.07H0.316l5.733 -6.57L0 0.75h5.063l3.495 4.633L12.601 0.75Zm-0.86 13.028h1.36L4.323 2.145H2.865z" />
+    </svg>
+  )
+}
+
+const summaryPrompt = (title: string, url: string) =>
+  `Read and summarize this blog post for me, then let me ask follow-up questions.\n\nTitle: ${title}\n${url}`
 
 export function Breadcrumbs({ crumbs }: { crumbs: Array<{ name: string; path: string }> }) {
   return (
@@ -39,7 +50,7 @@ export function ShareButtons({ slug, title }: { slug: string; title: string }) {
       </Button>
       <Button
         variant="outline"
-        size="icon"
+        size="sm"
         aria-label="Share on X"
         render={
           <a
@@ -49,8 +60,40 @@ export function ShareButtons({ slug, title }: { slug: string; title: string }) {
           />
         }
       >
-        <Twitter className="size-4" />
+        <XIcon className="size-4" />
+        Share
       </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        aria-label="Summarize with ChatGPT"
+        render={
+          <a
+            href={`https://chatgpt.com/?q=${encodeURIComponent(summaryPrompt(title, url))}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        }
+      >
+        <img src="/brand/chatgpt.svg" alt="" className="size-4 rounded-[3px]" />
+        ChatGPT
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        aria-label="Summarize with Claude"
+        render={
+          <a
+            href={`https://claude.ai/new?q=${encodeURIComponent(summaryPrompt(title, url))}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        }
+      >
+        <img src="/brand/claude.svg" alt="" className="size-4 rounded-[3px]" />
+        Claude
+      </Button>
+
     </div>
   )
 }
